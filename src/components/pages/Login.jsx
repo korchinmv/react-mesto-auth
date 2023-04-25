@@ -1,7 +1,7 @@
-import Header from "./Header";
-import { MainForm } from "./MainForm";
+import Header from "./../Header";
+import MainForm from "./../MainForm";
 
-export const Login = () => {
+const Login = () => {
   return (
     <>
       <Header register="Регистрация" />
@@ -9,3 +9,5 @@ export const Login = () => {
     </>
   );
 };
+
+export default Login;

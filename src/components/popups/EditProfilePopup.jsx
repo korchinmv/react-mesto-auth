@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import PopupWithForm from "./PopupWithForm";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 const EditProfilePopup = ({ isLoading, isOpen, onClose, onUpdateUser }) => {
   const currentUser = useContext(CurrentUserContext);

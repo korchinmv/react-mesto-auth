@@ -1,5 +1,5 @@
 import PopupWithForm from "./PopupWithForm";
-import usePopupClose from "../hooks/usePopupClose";
+import usePopupClose from "../../hooks/usePopupClose";
 
 export const ConfirmPopup = ({
   card,

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export const MainForm = ({ nameForm, nameButton, title }) => {
+const MainForm = ({ nameForm, nameButton, title }) => {
   return (
     <>
       <h2 className="form-title">{title}</h2>
@@ -28,3 +28,5 @@ export const MainForm = ({ nameForm, nameButton, title }) => {
     </>
   );
 };
+
+export default MainForm;

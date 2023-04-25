@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Login } from "./Login";
-import { Register } from "./Register";
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Header from "./Header";
 import Main from "./Main";
+import Content from "./pages/Content";
 import Footer from "./Footer";
-import EditProfilePopup from "./EditProfilePopup";
-import EditAvatarPopup from "./EditAvatarPopup";
-import AddPlacePopup from "./AddPlacePopup";
-import ConfirmPopup from "./ConfirmPopup";
-import ImagePopup from "./ImagePopup";
+import EditProfilePopup from "./popups/EditProfilePopup";
+import EditAvatarPopup from "./popups/EditAvatarPopup";
+import AddPlacePopup from "./popups/AddPlacePopup";
+import ConfirmPopup from "./popups/ConfirmPopup";
+import ImagePopup from "./popups/ImagePopup";
 import api from "../utils/Api.js";
 
-function App() {
+const App = () => {
   const [popupProfileOpen, setPopupProfileOpen] = useState(false);
   const [popupAvatarOpen, setPopupAvatarOpen] = useState(false);
   const [popupCardOpen, setCardPopupOpen] = useState(false);
@@ -23,6 +24,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const closeAllPopups = () => {
     setPopupProfileOpen(false);
@@ -147,13 +149,14 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <BrowserRouter>
-          <Header />
+        <Header />
+
+        <Main>
           <Routes>
             <Route
               path="/"
               element={
-                <Main
+                <Content
                   cards={cards}
                   onEditAvatar={onEditAvatar}
                   onEditProfile={onEditProfile}
@@ -167,48 +170,48 @@ function App() {
             <Route path="/sign-up" element={<Register />} />
             <Route path="/sign-in" element={<Login />} />
           </Routes>
+        </Main>
 
-          <Footer />
+        <Footer />
 
-          <EditProfilePopup
-            isOpen={popupProfileOpen}
-            onClose={closeAllPopups}
-            onUpdateUser={handleUpdateUser}
-            isLoading={isLoading}
-          />
-          <EditAvatarPopup
-            isOpen={popupAvatarOpen}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-            isLoading={isLoading}
-          />
+        <EditProfilePopup
+          isOpen={popupProfileOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+          isLoading={isLoading}
+        />
+        <EditAvatarPopup
+          isOpen={popupAvatarOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+          isLoading={isLoading}
+        />
 
-          <AddPlacePopup
-            isOpen={popupCardOpen}
-            onClose={closeAllPopups}
-            onAddPlace={handleAddPlaceSubmit}
-            isLoading={isLoading}
-          />
+        <AddPlacePopup
+          isOpen={popupCardOpen}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
+          isLoading={isLoading}
+        />
 
-          <ConfirmPopup
-            isOpen={popupConfirmOpen}
-            onClose={closeAllPopups}
-            buttonText={"Да"}
-            onCardDelete={handleCardDelete}
-            card={selectedCard}
-            isLoading={isLoading}
-          ></ConfirmPopup>
+        <ConfirmPopup
+          isOpen={popupConfirmOpen}
+          onClose={closeAllPopups}
+          buttonText={"Да"}
+          onCardDelete={handleCardDelete}
+          card={selectedCard}
+          isLoading={isLoading}
+        ></ConfirmPopup>
 
-          <ImagePopup
-            name="popup-photo"
-            card={selectedCard}
-            isOpen={popupImageOpen}
-            onClose={closeAllPopups}
-          />
-        </BrowserRouter>
+        <ImagePopup
+          name="popup-photo"
+          card={selectedCard}
+          isOpen={popupImageOpen}
+          onClose={closeAllPopups}
+        />
       </div>
     </CurrentUserContext.Provider>
   );
-}
+};
 
 export default App;
