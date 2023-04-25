@@ -1,11 +1,9 @@
-import Header from "./../Header";
 import MainForm from "./../MainForm";
 
-const Login = () => {
+const Login = ({ title }) => {
   return (
     <>
-      <Header register="Регистрация" />
-      <MainForm title="Вход" nameForm="login" nameButton="Войти" />
+      <MainForm title={title} nameForm="login" nameButton="Войти" />
     </>
   );
 };

@@ -149,11 +149,17 @@ const App = () => {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
+        <Header
+          logout="Выйти"
+          register="Регистрация"
+          login="Войти"
+          loggedIn={loggedIn}
+        />
 
         <Main>
           <Routes>
             <Route
+              index
               path="/"
               element={
                 <Content
@@ -168,11 +174,11 @@ const App = () => {
               }
             />
             <Route path="/sign-up" element={<Register />} />
-            <Route path="/sign-in" element={<Login />} />
+            <Route path="/sign-in" element={<Login title="Вход" />} />
           </Routes>
         </Main>
 
-        <Footer />
+        {loggedIn && <Footer />}
 
         <EditProfilePopup
           isOpen={popupProfileOpen}

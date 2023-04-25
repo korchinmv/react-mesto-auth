@@ -2,10 +2,10 @@ import { Link } from "react-router-dom";
 
 const MainForm = ({ nameForm, nameButton, title }) => {
   return (
-    <>
-      <h2 className="form-title">{title}</h2>
-
+    <div className="container">
       <form className="main-form" action="#" name={nameForm}>
+        <h2 className="main-form__title">{title}</h2>
+
         <input
           className="main-form__input"
           name="email"
@@ -25,7 +25,7 @@ const MainForm = ({ nameForm, nameButton, title }) => {
 
         <Link to="login">Уже зарегистрированы? Войти</Link>
       </form>
-    </>
+    </div>
   );
 };
 
