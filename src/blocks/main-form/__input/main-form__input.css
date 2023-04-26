@@ -1,5 +1,19 @@
 .main-form__input {
   background-color: transparent;
-  border: 2px solid #ccc;
-  margin-bottom: 30px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  color: #fff;
+  padding: 13px 5px;
+  font-size: 14px;
+  margin-bottom: 25px;
+  transition: border-bottom-color 0.3s;
+  outline: transparent;
+}
+
+.main-form__input:focus {
+  border-bottom-color: #fff;
+}
+
+.main-form__input:last-of-type {
+  margin-bottom: 216px;
 }

@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Header from "./Header";
 import Main from "./Main";
 import Content from "./pages/Content";
 import Footer from "./Footer";
+import ProtectedRouteElement from "./ProtectedRouteElement";
 import EditProfilePopup from "./popups/EditProfilePopup";
 import EditAvatarPopup from "./popups/EditAvatarPopup";
 import AddPlacePopup from "./popups/AddPlacePopup";
@@ -159,10 +160,19 @@ const App = () => {
         <Main>
           <Routes>
             <Route
-              index
               path="/"
               element={
-                <Content
+                loggedIn ? <Navigate to="/index" /> : <Navigate to="/sign-in" />
+              }
+            />
+            <Route path="/sign-up" element={<Register title="Регистрация" />} />
+            <Route path="/sign-in" element={<Login title="Вход" />} />
+            <Route
+              index
+              path="/index"
+              element={
+                <ProtectedRouteElement
+                  element={Content}
                   cards={cards}
                   onEditAvatar={onEditAvatar}
                   onEditProfile={onEditProfile}
@@ -170,11 +180,10 @@ const App = () => {
                   onAddPlace={onAddPlace}
                   onCardClick={handleCardClick}
                   onCardLike={handleCardLike}
+                  loggedIn={loggedIn}
                 />
               }
             />
-            <Route path="/sign-up" element={<Register />} />
-            <Route path="/sign-in" element={<Login title="Вход" />} />
           </Routes>
         </Main>
 

@@ -1,22 +1,31 @@
+import { useLocation } from "react-router-dom";
 import logo from "../images/logo.svg";
 
 function Header({ register, login, logout, loggedIn }) {
+  const location = useLocation();
   return (
     <header className="header">
       <div className="container">
         <div className="header__box">
           <img className="header__logo" src={logo} alt="Логотип Mesto" />
-          {/* <button className="header__button">{register}</button> */}
 
           {loggedIn ? (
-            <div className="header__user">
-              <span className="header__user-name">asdad@yandex</span>
-              <button className="header__button header__button_logout">
-                {logout}
-              </button>
-            </div>
+            <>
+              <div className="header__user">
+                <span className="header__user-name">asdad@yandex</span>
+                <button className="header__button header__button_logout hover">
+                  {logout}
+                </button>
+              </div>
+            </>
           ) : (
-            <button className="header__button">{login}</button>
+            <>
+              {location.pathname === "/sign-up" ? (
+                <button className="header__button hover">{login}</button>
+              ) : (
+                <button className="header__button hover">{register}</button>
+              )}
+            </>
           )}
 
           {}

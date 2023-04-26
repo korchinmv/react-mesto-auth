@@ -1,9 +1,13 @@
 import MainForm from "./../MainForm";
 
-const Register = () => {
+const Register = ({ title }) => {
   return (
     <>
-      <MainForm />
+      <MainForm
+        title={title}
+        nameForm="register"
+        nameButton="Зарегистрироваться"
+      />
     </>
   );
 };

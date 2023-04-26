@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const MainForm = ({ nameForm, nameButton, title }) => {
   return (
@@ -19,11 +19,15 @@ const MainForm = ({ nameForm, nameButton, title }) => {
           placeholder="Пароль"
         />
 
-        <button className="main-form__submit" type="submit">
+        <button className="main-form__submit hover" type="submit">
           {nameButton}
         </button>
 
-        <Link to="login">Уже зарегистрированы? Войти</Link>
+        {nameForm === "register" && (
+          <Link className="main-form__sign hover" to="/sign-in">
+            Уже зарегистрированы? Войти
+          </Link>
+        )}
       </form>
     </div>
   );
