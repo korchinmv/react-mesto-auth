@@ -13,7 +13,11 @@ import EditAvatarPopup from "./popups/EditAvatarPopup";
 import AddPlacePopup from "./popups/AddPlacePopup";
 import ConfirmPopup from "./popups/ConfirmPopup";
 import ImagePopup from "./popups/ImagePopup";
+import SuccessPopup from "./popups/SuccessPopup";
+import FailPopup from "./popups/FailPopup";
 import api from "../utils/Api.js";
+import success from "../images/svg/success.svg";
+import fail from "../images/svg/fail.svg";
 
 const App = () => {
   const [popupProfileOpen, setPopupProfileOpen] = useState(false);
@@ -21,6 +25,8 @@ const App = () => {
   const [popupCardOpen, setCardPopupOpen] = useState(false);
   const [popupConfirmOpen, setConfirmPopupOpen] = useState(false);
   const [popupImageOpen, setImagePopupOpen] = useState(false);
+  const [popupSuccesOpen, setPopupSuccesOpen] = useState(true);
+  const [popupFailOpen, setPopupFailOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -33,6 +39,8 @@ const App = () => {
     setCardPopupOpen(false);
     setConfirmPopupOpen(false);
     setImagePopupOpen(false);
+    setPopupSuccesOpen(false);
+    setPopupFailOpen(false);
     setSelectedCard({});
   };
 
@@ -223,6 +231,25 @@ const App = () => {
           card={selectedCard}
           isOpen={popupImageOpen}
           onClose={closeAllPopups}
+        />
+
+        <SuccessPopup
+          name="success-popup"
+          isOpen={popupSuccesOpen}
+          onClose={closeAllPopups}
+          text="Вы успешно зарегистрировались!"
+          image={success}
+          alt="Выполнено успешно"
+        />
+
+        <FailPopup
+          name="fail-popup"
+          isOpen={popupFailOpen}
+          onClose={closeAllPopups}
+          text="Что-то пошло не так!
+					Попробуйте ещё раз."
+          image={fail}
+          alt="Произошла ошибка.."
         />
       </div>
     </CurrentUserContext.Provider>
