@@ -25,7 +25,7 @@ const App = () => {
   const [popupCardOpen, setCardPopupOpen] = useState(false);
   const [popupConfirmOpen, setConfirmPopupOpen] = useState(false);
   const [popupImageOpen, setImagePopupOpen] = useState(false);
-  const [popupSuccesOpen, setPopupSuccesOpen] = useState(true);
+  const [popupSuccesOpen, setPopupSuccesOpen] = useState(false);
   const [popupFailOpen, setPopupFailOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});

@@ -9,12 +9,14 @@ const Login = ({ title }) => {
           name="email"
           type="email"
           placeholder="Email"
+          required
         />
         <input
           className="main-form__input"
           name="password"
           type="password"
           placeholder="Пароль"
+          required
         />
       </MainForm>
     </>

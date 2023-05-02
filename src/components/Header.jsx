@@ -1,8 +1,9 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import logo from "../images/logo.svg";
 
 function Header({ register, login, logout, loggedIn }) {
   const location = useLocation();
+
   return (
     <header className="header">
       <div className="container">
@@ -21,9 +22,13 @@ function Header({ register, login, logout, loggedIn }) {
           ) : (
             <>
               {location.pathname === "/sign-up" ? (
-                <button className="header__button hover">{login}</button>
+                <Link className="header__button hover" to="/sign-in">
+                  {login}
+                </Link>
               ) : (
-                <button className="header__button hover">{register}</button>
+                <Link className="header__button hover" to="/sign-up">
+                  {register}
+                </Link>
               )}
             </>
           )}
