@@ -1,7 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import logo from "../images/logo.svg";
 
-function Header({ register, login, logout, loggedIn }) {
+function Header({ register, login, logout, loggedIn, userData }) {
   const location = useLocation();
 
   return (
@@ -13,7 +13,7 @@ function Header({ register, login, logout, loggedIn }) {
           {loggedIn ? (
             <>
               <div className="header__user">
-                <span className="header__user-name">asdad@yandex</span>
+                <span className="header__user-name">{userData.email}</span>
                 <button className="header__button header__button_logout hover">
                   {logout}
                 </button>

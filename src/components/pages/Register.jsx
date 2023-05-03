@@ -1,8 +1,7 @@
 import MainForm from "./../MainForm";
-import { register } from "../MestoAuth";
 import { useForm } from "../../hooks/useForm";
 
-const Register = ({ title }) => {
+const Register = ({ title, registerUser }) => {
   const { form, handleChange } = useForm({
     password: "",
     email: "",
@@ -10,9 +9,8 @@ const Register = ({ title }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const { password, email } = form;
-    register(password, email);
+    registerUser(password, email);
   };
 
   return (

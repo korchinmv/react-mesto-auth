@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import * as MestoAuth from "../utils/MestoAuth";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Header from "./Header";
@@ -31,7 +32,13 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState("");
+  const [userData, setUserData] = useState({
+    username: "",
+    email: "",
+  });
+  const navigate = useNavigate();
 
   const closeAllPopups = () => {
     setPopupProfileOpen(false);
@@ -42,6 +49,27 @@ const App = () => {
     setPopupSuccesOpen(false);
     setPopupFailOpen(false);
     setSelectedCard({});
+  };
+
+  useEffect(() => {
+    if (!token) {
+      return;
+    }
+
+    MestoAuth.getUserData(token).then((user) => {
+      setUserData(user);
+      setIsLoggedIn(true);
+      navigate("/index");
+    });
+  }, [token, navigate]);
+
+  const registerUser = (password, email) => {
+    MestoAuth.registerUser(password, email)
+      .then((response) => {
+        localStorage.setItem("jwt", response._id);
+        setToken(response.data._id);
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -162,7 +190,8 @@ const App = () => {
           logout="Выйти"
           register="Регистрация"
           login="Войти"
-          loggedIn={loggedIn}
+          loggedIn={isLoggedIn}
+          userData={userData}
         />
 
         <Main>
@@ -170,10 +199,19 @@ const App = () => {
             <Route
               path="/"
               element={
-                loggedIn ? <Navigate to="/index" /> : <Navigate to="/sign-in" />
+                isLoggedIn ? (
+                  <Navigate to="/index" />
+                ) : (
+                  <Navigate to="/sign-in" />
+                )
               }
             />
-            <Route path="/sign-up" element={<Register title="Регистрация" />} />
+            <Route
+              path="/sign-up"
+              element={
+                <Register title="Регистрация" registerUser={registerUser} />
+              }
+            />
             <Route path="/sign-in" element={<Login title="Вход" />} />
             <Route
               index
@@ -188,14 +226,14 @@ const App = () => {
                   onAddPlace={onAddPlace}
                   onCardClick={handleCardClick}
                   onCardLike={handleCardLike}
-                  loggedIn={loggedIn}
+                  loggedIn={isLoggedIn}
                 />
               }
             />
           </Routes>
         </Main>
 
-        {loggedIn && <Footer />}
+        {isLoggedIn && <Footer />}
 
         <EditProfilePopup
           isOpen={popupProfileOpen}
