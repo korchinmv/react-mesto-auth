@@ -68,8 +68,12 @@ const App = () => {
       .then((response) => {
         localStorage.setItem("jwt", response._id);
         setToken(response.data._id);
+        setPopupSuccesOpen(true)
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setPopupFailOpen(true)
+        console.log(err)
+      });
   };
 
   useEffect(() => {
