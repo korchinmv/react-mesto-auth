@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import * as MestoAuth from "../utils/MestoAuth";
+import * as mestoAuth from "../utils/mestoAuth";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Header from "./Header";
@@ -52,27 +52,53 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (!token) {
-      return;
-    }
+    const token = localStorage.getItem("jwt");
 
-    MestoAuth.getUserData(token).then((user) => {
-      setUserData(user);
-      setIsLoggedIn(true);
-      navigate("/index");
-    });
-  }, [token, navigate]);
+    if (token) {
+      mestoAuth
+        .getUserData(token)
+        .then((res) => {
+          setUserData({ email: res.data.email });
+          setIsLoggedIn(true);
+          navigate("/index");
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [navigate]);
 
   const registerUser = (password, email) => {
-    MestoAuth.registerUser(password, email)
-      .then((response) => {
-        localStorage.setItem("jwt", response._id);
-        setToken(response.data._id);
-        setPopupSuccesOpen(true)
+    mestoAuth
+      .registerUser(password, email)
+      .then((res) => {
+        if (res.token) localStorage.setItem("token", res.token);
+        navigate("/index");
+        setPopupSuccesOpen(true);
+        setIsLoggedIn(true);
+        setUserData({ email: res.data.email });
       })
       .catch((err) => {
-        setPopupFailOpen(true)
-        console.log(err)
+        setPopupFailOpen(true);
+        console.log(err);
+      });
+  };
+
+  const logOut = () => {
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+    navigate("/sing-in");
+  };
+
+  const loginUser = ({ password, email }) => {
+    mestoAuth
+      .authorizeUser({ password, email })
+      .then(() => {
+        setIsLoggedIn(true);
+        setUserData({ email: email });
+        navigate("/index");
+      })
+      .catch((err) => {
+        console.log(err);
+        setPopupFailOpen(true);
       });
   };
 
@@ -195,6 +221,7 @@ const App = () => {
           register="Регистрация"
           login="Войти"
           loggedIn={isLoggedIn}
+          logOut={logOut}
           userData={userData}
         />
 
@@ -216,7 +243,10 @@ const App = () => {
                 <Register title="Регистрация" registerUser={registerUser} />
               }
             />
-            <Route path="/sign-in" element={<Login title="Вход" />} />
+            <Route
+              path="/sign-in"
+              element={<Login title="Вход" loginUser={loginUser} />}
+            />
             <Route
               index
               path="/index"

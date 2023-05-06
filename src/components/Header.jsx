@@ -1,7 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import logo from "../images/logo.svg";
 
-function Header({ register, login, logout, loggedIn, userData }) {
+function Header({ register, login, logout, loggedIn, userData, logOut }) {
   const location = useLocation();
 
   return (
@@ -14,7 +14,10 @@ function Header({ register, login, logout, loggedIn, userData }) {
             <>
               <div className="header__user">
                 <span className="header__user-name">{userData.email}</span>
-                <button className="header__button header__button_logout hover">
+                <button
+                  className="header__button header__button_logout hover"
+                  onClick={logOut}
+                >
                   {logout}
                 </button>
               </div>
