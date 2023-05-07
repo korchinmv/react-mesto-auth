@@ -19,8 +19,8 @@ export const registerUser = (password, email) => {
   return makeRequest("/signup", "POST", { password, email });
 };
 
-export const authorizeUser = (password, identifier) => {
-  return makeRequest("/signin", "POST", { password, identifier });
+export const authorizeUser = (password, email) => {
+  return makeRequest("/signin", "POST", { password, email });
 };
 
 export const getUserData = (token) => {

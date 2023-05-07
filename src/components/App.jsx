@@ -33,11 +33,7 @@ const App = () => {
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState("");
-  const [userData, setUserData] = useState({
-    username: "",
-    email: "",
-  });
+  const [userEmail, setUserEmail] = useState("");
   const navigate = useNavigate();
 
   const closeAllPopups = () => {
@@ -52,29 +48,47 @@ const App = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("jwt");
+    tokenCheck();
+  }, []);
 
-    if (token) {
-      mestoAuth
-        .getUserData(token)
-        .then((res) => {
-          setUserData({ email: res.data.email });
-          setIsLoggedIn(true);
-          navigate("/index");
-        })
-        .catch((err) => console.log(err));
+  const tokenCheck = () => {
+    if (localStorage.getItem("jwt")) {
+      const jwt = localStorage.getItem("jwt");
+      if (jwt) {
+        mestoAuth
+          .getUserData(jwt)
+          .then((res) => {
+            setUserEmail(res.data.email);
+            setIsLoggedIn(true);
+            navigate("/index");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     }
-  }, [navigate]);
+  };
+
+  const loginUser = (password, email) => {
+    mestoAuth
+      .authorizeUser(password, email)
+      .then((res) => {
+        localStorage.setItem("jwt", res.token);
+        tokenCheck();
+      })
+      .catch((err) => {
+        console.log(err);
+        setPopupFailOpen(true);
+      });
+  };
 
   const registerUser = (password, email) => {
     mestoAuth
       .registerUser(password, email)
       .then((res) => {
-        if (res.token) localStorage.setItem("token", res.token);
-        navigate("/index");
+        navigate("/sign-in");
         setPopupSuccesOpen(true);
-        setIsLoggedIn(true);
-        setUserData({ email: res.data.email });
+        setUserEmail(res.data.email);
       })
       .catch((err) => {
         setPopupFailOpen(true);
@@ -85,21 +99,8 @@ const App = () => {
   const logOut = () => {
     localStorage.removeItem("jwt");
     setIsLoggedIn(false);
-    navigate("/sing-in");
-  };
-
-  const loginUser = ({ password, email }) => {
-    mestoAuth
-      .authorizeUser({ password, email })
-      .then(() => {
-        setIsLoggedIn(true);
-        setUserData({ email: email });
-        navigate("/index");
-      })
-      .catch((err) => {
-        console.log(err);
-        setPopupFailOpen(true);
-      });
+    setUserEmail("");
+    navigate("/sign-in");
   };
 
   useEffect(() => {
@@ -222,7 +223,7 @@ const App = () => {
           login="Войти"
           loggedIn={isLoggedIn}
           logOut={logOut}
-          userData={userData}
+          userData={userEmail}
         />
 
         <Main>

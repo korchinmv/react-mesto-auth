@@ -13,7 +13,7 @@ function Header({ register, login, logout, loggedIn, userData, logOut }) {
           {loggedIn ? (
             <>
               <div className="header__user">
-                <span className="header__user-name">{userData.email}</span>
+                <span className="header__user-name">{userData}</span>
                 <button
                   className="header__button header__button_logout hover"
                   onClick={logOut}
