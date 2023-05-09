@@ -15,13 +15,14 @@ const Content = ({
       <Profile
         onEditAvatar={onEditAvatar}
         onEditProfile={onEditProfile}
+        onAddPlace={onAddPlace}
         openConfirmPopup={openConfirmPopup}
       />
       <Gallery
         cards={cards}
-        onAddPlace={onAddPlace}
         onCardClick={onCardClick}
         onCardLike={onCardLike}
+        openConfirmPopup={openConfirmPopup}
       />
     </>
   );
