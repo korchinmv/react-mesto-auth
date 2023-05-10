@@ -8,7 +8,7 @@ const makeRequest = (url, method, body, token) => {
   if (token !== undefined) headers["Authorization"] = `Bearer ${token}`;
   if (body !== undefined) config.body = JSON.stringify(body);
 
-  return fetch(`${URL_DEV}${url}`, config).then((res) => {
+  return fetch(`${BASE_URL}${url}`, config).then((res) => {
     return res.ok
       ? res.json()
       : Promise.reject(`Ошибка: ${res.status} ${res.statusText}`);

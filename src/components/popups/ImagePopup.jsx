@@ -3,7 +3,7 @@ import usePopupClose from "../../hooks/usePopupClose";
 function ImagePopup({ name, card, isOpen, onClose }) {
   usePopupClose(isOpen, onClose);
   return (
-    <div className={`popup ${name} ${isOpen && "popup_opened"}`}>
+    <div className={`popup ${name} ${isOpen && "popup_opened"} popup_overlay_dark`}>
       <figure className="popup__photo">
         <button
           className="popup__close close-photo-popup hover"

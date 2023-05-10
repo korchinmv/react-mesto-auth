@@ -1,4 +1,7 @@
+import usePopupClose from "../../hooks/usePopupClose";
+
 const InfoTooltip = ({ name, isOpen, onClose, text, image, alt }) => {
+  usePopupClose(isOpen, onClose);
   return (
     <div className={`popup ${name} ${isOpen && "popup_opened"}`}>
       <div className="popup__container">

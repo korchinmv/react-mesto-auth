@@ -14,8 +14,7 @@ import EditAvatarPopup from "./popups/EditAvatarPopup";
 import AddPlacePopup from "./popups/AddPlacePopup";
 import ConfirmPopup from "./popups/ConfirmPopup";
 import ImagePopup from "./popups/ImagePopup";
-import SuccessPopup from "./popups/SuccessPopup";
-import FailPopup from "./popups/FailPopup";
+import InfoTooltip from "./popups/InfoTooltip";
 import api from "../utils/Api.js";
 import success from "../images/svg/success.svg";
 import fail from "../images/svg/fail.svg";
@@ -48,10 +47,10 @@ const App = () => {
   };
 
   useEffect(() => {
-    tokenCheck();
+    checkToken();
   }, []);
 
-  const tokenCheck = () => {
+  const checkToken = () => {
     if (localStorage.getItem("jwt")) {
       const jwt = localStorage.getItem("jwt");
       if (jwt) {
@@ -74,7 +73,9 @@ const App = () => {
       .authorizeUser(password, email)
       .then((res) => {
         localStorage.setItem("jwt", res.token);
-        tokenCheck();
+        setUserEmail(email);
+        setIsLoggedIn(true);
+        navigate("/index");
       })
       .catch((err) => {
         console.log(err);
@@ -306,7 +307,7 @@ const App = () => {
           onClose={closeAllPopups}
         />
 
-        <SuccessPopup
+        <InfoTooltip
           name="success-popup"
           isOpen={popupSuccesOpen}
           onClose={closeAllPopups}
@@ -315,7 +316,7 @@ const App = () => {
           alt="Выполнено успешно"
         />
 
-        <FailPopup
+        <InfoTooltip
           name="fail-popup"
           isOpen={popupFailOpen}
           onClose={closeAllPopups}
